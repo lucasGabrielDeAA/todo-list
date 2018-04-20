@@ -9,10 +9,15 @@ class App extends Component {
 
   state = {
     notes: [],
+    totalNotes: 0,
   };
 
   componentDidMount() {
-    const notesDatabase = firebase.database().ref().child('notes');
+    const notesDatabase = firebase.database().ref('notes');
+
+    notesDatabase.on('value', snap => {
+      this.setState({ totalNotes: snap.numChildren() });
+    });
 
     notesDatabase.on('child_added', snap => {
       this.setState({
@@ -25,11 +30,17 @@ class App extends Component {
         notes: [...this.state.notes.filter(note => (note.id !== snap.key))]
       })
     });
+
+    //Child changed
+    notesDatabase.on('child_changed', snap => {
+      console.log(snap.val());
+    });
+
   }
 
   addNote = (noteMessage) => {
     const notesDatabase = firebase.database().ref().child('notes');
-    notesDatabase.push().set({ message: noteMessage });
+    notesDatabase.push().set({ id: Math.random(), message: noteMessage });
   }
 
   removeNote = (noteId) => {
@@ -42,8 +53,8 @@ class App extends Component {
       <div className="notesWrapper">
         <div className="notesHeader">
           <div className="header">
-            React + Firebase TodoList
-            </div>
+            {this.state.totalNotes + ' notes'}
+          </div>
         </div>
         <div className="notesBody">
           {this.state.notes.length > 0 ?
@@ -59,7 +70,7 @@ class App extends Component {
           }
         </div>
         <div className="notesFooter">
-          <NoteForm addNote={this.addNote}/>
+          <NoteForm addNote={this.addNote} />
         </div>
       </div>
     );
