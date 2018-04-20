@@ -16,7 +16,7 @@ const Note = ({ message, id, removeNote }) => ({
     }
 });
 
-Note.PropTypes = {
+Note.propTypes = {
     message: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     removeNote: PropTypes.func.isRequired,
