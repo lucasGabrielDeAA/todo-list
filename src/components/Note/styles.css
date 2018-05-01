@@ -3,11 +3,11 @@
     height: auto;
     margin: auto;
     margin-bottom: 8px;
-    width: 60%;
+    width: 55%;
     font-family: 'Roboto', sans-serif;
     font-size: 1.4em;
     color: #222;
-    background-color: #fff;
+    background-color: #11ffaa;
     border-radius: 3px;
     box-shadow: 43x 3px 2px #333;
     opacity: 1;
@@ -39,5 +39,5 @@
 }
 
 .closebtn:hover {
-    color: #AC2500;
+    color: #ff0000;
 }
