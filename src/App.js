@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 
 import Note from './components/Note';
 import NoteForm from './components/NoteForm';
+import LoadingIndicator from './components/LoadingIndicator';
 
 class App extends Component {
 
@@ -61,7 +62,7 @@ class App extends Component {
                 removeNote={this.removeNote}
               />
             ))
-            : null
+            : <LoadingIndicator />
           }
         </div>
         <div className="notesFooter">
