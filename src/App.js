@@ -13,39 +13,34 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const notesDatabase = firebase.database().ref('notes');
+    const database = firebase.database().ref('notes');
 
-    notesDatabase.on('value', snap => {
+    database.on('value', snap => {
       this.setState({ totalNotes: snap.numChildren() });
     });
 
-    notesDatabase.on('child_added', snap => {
+    database.on('child_added', snap => {
       this.setState({
         notes: [...this.state.notes, { id: snap.key, message: snap.val().message }]
       });
     });
 
-    notesDatabase.on('child_removed', snap => {
+    database.on('child_removed', snap => {
       this.setState({
         notes: [...this.state.notes.filter(note => (note.id !== snap.key))]
       })
     });
 
-    //Child changed
-    notesDatabase.on('child_changed', snap => {
-      console.log(snap.val());
-    });
-
   }
 
   addNote = (noteMessage) => {
-    const notesDatabase = firebase.database().ref().child('notes');
-    notesDatabase.push().set({ id: Math.random(), message: noteMessage });
+    const database = firebase.database().ref().child('notes');
+    database.push().set({ id: Math.random(), message: noteMessage });
   }
 
   removeNote = (noteId) => {
-    const notesDatabase = firebase.database().ref().child('notes');
-    notesDatabase.child(noteId).remove();
+    const database = firebase.database().ref().child('notes');
+    database.child(noteId).remove();
   }
 
   render() {
